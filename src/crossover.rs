@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::{image::Genome, tournamant_selection::ScoredGenome};
+use crate::{image_canvas::Genome, tournamant_selection::ScoredGenome};
 
 // Uniform crossover — for each shape position,
 // randomly pick from either parent A or parent B

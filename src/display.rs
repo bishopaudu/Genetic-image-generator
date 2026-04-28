@@ -1,9 +1,8 @@
 use image::{ImageBuffer, Rgba};
 
-/// Convert our Canvas into the pixel format minifb needs
-/// minifb wants: Vec<u32> where each u32 is 0x00RRGGBB
-/// 
-/// 
+// Convert our Canvas into the pixel format minifb needs
+// minifb wants: Vec<u32> where each u32 is 0x00RRGGBB
+
 pub type Canvas = ImageBuffer<Rgba<u8>, Vec<u8>>;
 
 pub fn canvas_to_buffer(canvas: &Canvas) -> Vec<u32> {

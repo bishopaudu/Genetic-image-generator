@@ -1,6 +1,8 @@
 use image::{ImageBuffer, Rgba};
 use imageproc::{drawing, point::Point};
-use crate::image::{Genome, Shape};
+
+use crate::image_canvas::{Genome, Shape};
+
 
 /// ImageBuffer<Rgba<u8>, Vec<u8>> means:
 ///   - each pixel is Rgba (4 bytes: red, green, blue, alpha)
@@ -26,7 +28,7 @@ pub fn draw_shape(canvas: &mut Canvas, shape: &Shape) {
         }
 
         // ── Draw a triangle ──
-        Shape::Triangle { x1, y1, x2, y2, x3, y3, color } => {
+        /*Shape::Triangle { x1, y1, x2, y2, x3, y3, color } => {
             // imageproc draws polygons as a list of Points
             let points = vec![
                 Point::new(*x1 as i32, *y1 as i32),
@@ -38,12 +40,28 @@ pub fn draw_shape(canvas: &mut Canvas, shape: &Shape) {
                 &points,
                 Rgba([color.r, color.g, color.b, color.a]),
             );
+        }*/
+            Shape::Triangle { x1, y1, x2, y2, x3, y3, color } => {
+            let p0 = Point::new(*x1 as i32, *y1 as i32);
+            let p1 = Point::new(*x2 as i32, *y2 as i32);
+            let p2 = Point::new(*x3 as i32, *y3 as i32);
+
+            // corners are identical after f32 → i32 casting
+            if p0 == p1 || p1 == p2 || p0 == p2 {
+                return;
+            }
+
+            drawing::draw_polygon_mut(
+                canvas,
+                &[p0, p1, p2],
+                Rgba([color.r, color.g, color.b, color.a]),
+            );
         }
     }
 }
 
-/// Render a full genome into a Canvas
-/// This is the key function — it turns DNA into a visible image
+// Render a full genome into a Canvas
+// This is the key function — it turns DNA into a visible image
 pub fn render(genome: &Genome, width: u32, height: u32) -> Canvas {
     let mut canvas = blank_canvas(width, height);
 
@@ -60,3 +78,4 @@ pub fn save_image(canvas: &Canvas, path: &str) {
     canvas.save(path).expect("Failed to save image");
     println!("Saved: {}", path);
 }
+

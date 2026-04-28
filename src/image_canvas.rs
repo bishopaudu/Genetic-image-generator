@@ -30,9 +30,6 @@ pub struct Genome {
     pub shapes: Vec<Shape>,
 }
 
-// ─────────────────────────────────────────────
-// Random generation (Step 4)
-// ─────────────────────────────────────────────
 
 /// Generate one random Color
 fn random_color(rng: &mut impl Rng) -> Color {
@@ -40,7 +37,7 @@ fn random_color(rng: &mut impl Rng) -> Color {
         r: rng.gen_range(0..=255),
         g: rng.gen_range(0..=255),
         b: rng.gen_range(0..=255),
-        a: rng.gen_range(30..=200), // avoid fully invisible or fully opaque
+        a: rng.gen_range(30..=200), // to avoid fully invisible or fully opaque
     }
 }
 
@@ -49,7 +46,7 @@ fn random_color(rng: &mut impl Rng) -> Color {
 pub fn random_shape(rng: &mut impl Rng, width: f32, height: f32) -> Shape {
     // Randomly pick: 0 = Circle, 1 = Triangle
     if rng.gen_bool(0.5) {
-        // ── Circle ──
+        //Circle
         Shape::Circle {
             x:      rng.gen_range(0.0..width),
             y:      rng.gen_range(0.0..height),
@@ -57,7 +54,7 @@ pub fn random_shape(rng: &mut impl Rng, width: f32, height: f32) -> Shape {
             color:  random_color(rng),
         }
     } else {
-        // ── Triangle ──
+        //Triangle
         Shape::Triangle {
             x1: rng.gen_range(0.0..width),  y1: rng.gen_range(0.0..height),
             x2: rng.gen_range(0.0..width),  y2: rng.gen_range(0.0..height),
@@ -67,8 +64,8 @@ pub fn random_shape(rng: &mut impl Rng, width: f32, height: f32) -> Shape {
     }
 }
 
-/// Generate one random Genome (one image's DNA)
-/// num_shapes: how many shapes this genome will have (e.g. 50)
+// Generate one random Genome (one images DNA)
+// num_shapes refers to the number of shapes in the image 
 pub fn random_genome(rng: &mut impl Rng, width: f32, height: f32, num_shapes: usize) -> Genome {
     let shapes = (0..num_shapes)
         .map(|_| random_shape(rng, width, height))
@@ -77,8 +74,8 @@ pub fn random_genome(rng: &mut impl Rng, width: f32, height: f32, num_shapes: us
     Genome { shapes }
 }
 
-/// Generate a whole population of random genomes
-/// population_size: how many individuals (e.g. 100)
+//Generate a whole population of random genomes
+// population size: how many individuals (e.g. 100)
 pub fn random_population(
     rng: &mut impl Rng,
     width: f32,

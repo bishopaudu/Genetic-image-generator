@@ -1,22 +1,23 @@
-use crate::{evolution::{EvolutionConfig, evolve,}, fitness::create_test_target, image_render::{render, save_image}};
+use crate::{evolution::{EvolutionConfig, evolve,}, 
+image_render::{render, save_image}};
 mod image_render;
-mod image;
+//mod image;
 mod fitness;
 mod tournamant_selection;
 mod crossover;
 mod mutation;
 mod evolution;
 mod display;
-
+mod image_canvas;
 fn main() {
     let mut rng = rand::thread_rng();
 
-    // ── Load or create target ──
-    let target = create_test_target(200, 200);
-    // To use a real photo instead:
-    // let target = image::open("your_photo.png")
-    //     .expect("Could not load image")
-    //     .to_rgba8();
+    // Load or create target 
+   // let target = create_test_target(200, 200);
+    // To use a real photo 
+     let target = image::open("mona-lisa.jpeg")
+        .expect("Could not load image")
+        .to_rgba8();
 
     save_image(&target, "target.png");
     println!("╔════════════════════════════════════╗");
@@ -24,10 +25,11 @@ fn main() {
     println!("╚════════════════════════════════════╝\n");
     println!("Target: {}×{} pixels", target.width(), target.height());
 
+    // you can always adjust these settings later in the EvolutionConfig
     let config = EvolutionConfig {
         width:           target.width(),
         height:          target.height(),
-        num_generations: 5000,
+        num_generations: 50000, 
         save_every:      500,
         display_every:   10,
         ..EvolutionConfig::default()
@@ -35,14 +37,14 @@ fn main() {
 
     let best = evolve(&target, &config, &mut rng);
 
-    // ── Save final result ──
+    // Save final result 
     let final_canvas = render(&best, config.width, config.height);
     save_image(&final_canvas, "final_result.png");
 
     println!("Final result saved to final_result.png");
     println!("Progress images saved in output/");
 
-    // ── Keep window open after evolution finishes ──
+    // Keep window open after evolution finishes 
     println!("Window showing final result. Close it or press ESC to exit.");
 }
 /*fn main() {

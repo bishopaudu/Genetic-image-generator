@@ -1,5 +1,7 @@
 use rand::Rng;
-use crate::image::{Color, Genome, Shape, random_shape};
+
+use crate::image_canvas::{Color, Genome, Shape, random_shape};
+
 
 // How much to nudge a position value (in pixels)
 const POSITION_NUDGE : f32 = 20.0;

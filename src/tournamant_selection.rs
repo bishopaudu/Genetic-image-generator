@@ -1,7 +1,7 @@
 use image::{ImageBuffer, Rgba};
 use rand::Rng;
 
-use crate::{fitness::compute_fitness, image::Genome, image_render::render};
+use crate::{fitness::compute_fitness, image_canvas::Genome, image_render::render};
 
 /// A genome paired with its fitness error score
 /// Lower error = better fitness
